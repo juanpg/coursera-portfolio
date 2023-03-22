@@ -4,36 +4,36 @@ import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import {
   faGithub,
   faLinkedin,
-  faMedium,
-  faStackOverflow,
+  faFlickr,
 } from "@fortawesome/free-brands-svg-icons";
 import { Box, HStack } from "@chakra-ui/react";
 
 const socials = [
   {
     icon: faEnvelope,
-    url: "mailto: hello@example.com",
+    url: "mailto: juanpg@gmail.com",
+    alt: "E-Mail"
   },
   {
     icon: faGithub,
-    url: "https://github.com",
+    url: "https://github.com/juanpg",
+    alt: "Github"
   },
   {
     icon: faLinkedin,
-    url: "https://www.linkedin.com",
+    url: "https://www.linkedin.com/in/juanpablogonzalezruiz/",
+    alt: "LinkedIn"
   },
   {
-    icon: faMedium,
-    url: "https://medium.com",
-  },
-  {
-    icon: faStackOverflow,
-    url: "https://stackoverflow.com",
+    icon: faFlickr,
+    url: "https://www.flickr.com/photos/juanpg",
+    alt: "Flickr"
   },
 ];
 
 const Header = () => {
   const handleClick = (anchor) => () => {
+    console.log(anchor);
     const id = `${anchor}-section`;
     const element = document.getElementById(id);
     if (element) {
@@ -64,11 +64,20 @@ const Header = () => {
           alignItems="center"
         >
           <nav>
-            {/* Add social media links based on the `socials` data */}
+            <HStack spacing={8}>
+            {
+              socials.map(social => (
+                <a key={social.alt} href={social.url} alt={social.alt}>
+                  <FontAwesomeIcon icon={social.icon} size="2x" />
+                </a>
+              ))
+            }
+            </HStack>
           </nav>
           <nav>
             <HStack spacing={8}>
-              {/* Add links to Projects and Contact me section */}
+              <a href="/#projects" alt="Projects" onClick={handleClick('projects')}>Projects</a>
+              <a href="/#contact-me" title="Contact Me" onClick={handleClick('contactme')}>Contact Me</a>
             </HStack>
           </nav>
         </HStack>
