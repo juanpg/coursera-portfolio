@@ -1,33 +1,34 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import {
   faGithub,
   faLinkedin,
-  faFlickr,
+  faMedium,
+  faStackOverflow,
 } from "@fortawesome/free-brands-svg-icons";
 import { Box, HStack } from "@chakra-ui/react";
 
 const socials = [
   {
     icon: faEnvelope,
-    url: "mailto: juanpg@gmail.com",
-    alt: "E-Mail"
+    url: "mailto: hello@example.com",
   },
   {
     icon: faGithub,
-    url: "https://github.com/juanpg",
-    alt: "Github"
+    url: "https://github.com",
   },
   {
     icon: faLinkedin,
-    url: "https://www.linkedin.com/in/juanpablogonzalezruiz/",
-    alt: "LinkedIn"
+    url: "https://www.linkedin.com",
   },
   {
-    icon: faFlickr,
-    url: "https://www.flickr.com/photos/juanpg",
-    alt: "Flickr"
+    icon: faMedium,
+    url: "https://medium.com",
+  },
+  {
+    icon: faStackOverflow,
+    url: "https://stackoverflow.com",
   },
 ];
 
@@ -44,6 +45,29 @@ const Header = () => {
     }
   };
 
+  const [scrollDirection, setScrollDirection] = useState(false);
+
+  useEffect(() => {
+    let lastY = window.scrollY;
+
+    const handleScroll = (e) => {
+      const currentY = window.scrollY;
+      const direction = currentY > lastY ? 'down' : 'up';
+
+      if(direction !== scrollDirection && Math.abs(currentY - lastY) > 10) {
+        setScrollDirection(direction);
+      }
+
+      lastY = Math.max(currentY, 0);
+    }
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    }
+  }, [scrollDirection]);
+
   return (
     <Box
       position="fixed"
@@ -51,6 +75,7 @@ const Header = () => {
       left={0}
       right={0}
       translateY={0}
+      transform={scrollDirection === 'down' ? 'translateY(-200px)' : 'translateY(0)'}
       transitionProperty="transform"
       transitionDuration=".3s"
       transitionTimingFunction="ease-in-out"
@@ -66,8 +91,8 @@ const Header = () => {
           <nav>
             <HStack spacing={8}>
             {
-              socials.map(social => (
-                <a key={social.alt} href={social.url} alt={social.alt}>
+              socials.map((social, idx) => (
+                <a key={idx} href={social.url}>
                   <FontAwesomeIcon icon={social.icon} size="2x" />
                 </a>
               ))
