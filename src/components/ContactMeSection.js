@@ -29,14 +29,7 @@ const LandingSection = () => {
       comment: ''
     },
     onSubmit: (values, helpers) => {
-      submit("https://submit.com", values).then(() => {
-        helpers.resetForm({
-          firstName: "",
-          email: "",
-          type: "hireMe",
-          comment: ""
-        })
-      })
+      submit("https://submit.com", values);
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required("Required"),
@@ -49,6 +42,9 @@ const LandingSection = () => {
   useEffect(() => {
     if(response) {
       onOpen(response.type, response.message)
+      if(response.type === 'success') {
+        formik.resetForm();
+      }
     }
   }, [response]);
 
